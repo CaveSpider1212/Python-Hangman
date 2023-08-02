@@ -39,27 +39,27 @@ fivelw = ["sport", "drive", "robot", "award", "stand", "water", "spray", "piano"
 sixlw = ["closet", "trophy", "bottle", "guitar", "pillow", "school", "member", "window", "python", "jacket", "basket"]
 sevenlw = ["monitor", "blanket", "stapler", "history", "science", "algebra", "trumpet", "chicken", "curtain", "library", "grocery"]
 
+# Chooses the word
 wordlist = random.randint(4, 7) # update this and add another if statement if another set is added
 if wordlist == 4: # Choose random four-letter word
-    word = fourlw[random.randint(0, 10)] # Update if more words are added
+    word = fourlw[random.randint(0, len(fourlw)-1)] # Update if more words are added
     clue = list("????")
-    print(clue)
 if wordlist == 5: # Choose random five-letter word
-    word = fivelw[random.randint(0, 10)] # Update if more words are added
+    word = fivelw[random.randint(0, len(fivelw)-1)] # Update if more words are added
     clue = list("?????")
-    print(clue)
 if wordlist == 6: # Choose random six-letter word
-    word = sixlw[random.randint(0, 10)] # Update if more words are added
+    word = sixlw[random.randint(0, len(sixlw)-1)] # Update if more words are added
     clue = list("??????")
-    print(clue)
 if wordlist == 7: # Choose random seven-letter word
-    word = sevenlw[random.randint(0, 10)] # Update if more words are added
+    word = sevenlw[random.randint(0, len(sevenlw)-1)] # Update if more words are added
     clue = list("???????")
-    print(clue)
 
+# Game
 lives = 6
+guessedletters = []
+print(f"Guessed letters: {guessedletters}")
 while lives != 0:
-    guess = input("Guess a letter, or the whole word: ")
+    guess = t.textinput(clue, "Guess a letter, or the whole word: ")
     if guess == word: # Done if guessed word is correct
         print("Correct!")
         break
@@ -71,27 +71,31 @@ while lives != 0:
             space += 1
         if clue == list(word):
             print("Correct!")
-            break
-        else:
-            print(clue)        
+            break        
     else: # Done if guessed letter or word is incorrect
-        if lives == 6: # Head
-            drawPart("circle", 35, 270, 70)
-        elif lives == 5: # Body
-            drawPart("line", 100, 180, 62.5)
-            t.left(90)
-        elif lives == 4: # Left Arm
-            drawPart("line", 62.5, 180, 62.5)
-        elif lives == 3: # Right Arm
-            drawPart("line", 62.5, 180, 62.5)
-            t.left(90)
-            t.forward(62.5)
-            t.right(45)
-        elif lives == 2: # Left Leg
-            drawPart("line", 62.5, 180, 62.5)
-            t.right(90)
-        else: # Right Leg
-            drawPart("line", 62.5, 0, 0)
-            print(f"Game over! The word was {word}")
-            break
-        lives -= 1
+        if guess in guessedletters:
+            print("You already guessed that!")
+        else:
+            guessedletters.append(guess)
+            print(f"Guessed letters: {guessedletters}")
+
+            if lives == 6: # Head
+                drawPart("circle", 35, 270, 70)
+            elif lives == 5: # Body
+                drawPart("line", 100, 180, 62.5)
+                t.left(90)
+            elif lives == 4: # Left Arm
+                drawPart("line", 62.5, 180, 62.5)
+            elif lives == 3: # Right Arm
+                drawPart("line", 62.5, 180, 62.5)
+                t.left(90)
+                t.forward(62.5)
+                t.right(45)
+            elif lives == 2: # Left Leg
+                drawPart("line", 62.5, 180, 62.5)
+                t.right(90)
+            else: # Right Leg
+                drawPart("line", 62.5, 0, 0)
+                print(f"Game over! The word was {word}")
+                break
+            lives -= 1
